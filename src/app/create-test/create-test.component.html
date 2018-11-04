@@ -1,0 +1,14 @@
+
+<div class="container">
+    <h3>Kreiraj test</h3>
+    <form>
+        <div class="form-froup">
+            <label for="testName">Naziv testa</label>
+            <input type="text" class="form-control" id="testName" name="name" [(ngModel)]="test.name" placeholder="Unesite naziv testa....">
+            </div>
+            <br>
+            <div>
+                <button type="button" class="btn btn-primary" (click)="createTest()">Kreiraj</button>
+            </div>
+    </form>
+</div>
