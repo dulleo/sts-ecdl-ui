@@ -27,13 +27,15 @@ export class Test implements Serializable<Test> {
     }
 
     deserializeList(json: any) {
-        let models: Array<Test> = [];
+        let tests: Array<Test> = [];
         if(json != null) {
             for(var i=0; i<json.length; i++) {
                 var data = json[i];
                 var test: Test = new Test().deserialize(data);
-                models.push(test);
+                tests.push(test);
             }
         }
+
+        return tests;
     }
 }
