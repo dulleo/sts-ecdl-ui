@@ -1,0 +1,22 @@
+<div class="container">
+        <div class="container">
+            <table class="table table-boarder">
+                <thead>
+                    <tr>
+                        <th>Naziv</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let test of tests">
+                        <td>{{ test.getName()}}</td>
+                        <td>
+                            <button type="button" class="btn btn-info" (click)="editTest">Promeni</button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-danger" (click)="deleteTest()">Obriši</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+</div>
