@@ -1,0 +1,28 @@
+<div class="container">
+    <h3>Test {{test.getName()}}</h3>
+    <form>
+        <div class="form-froup">
+            <label for="questionText">Pitanje: </label>
+                <input type="text" class="form-control" 
+                        id="questionText" 
+                        name="text" 
+                        [(ngModel)]="question.text" 
+                        placeholder="Unesite tekst pitanja....">
+            </div>
+            <div class="form-group">
+                <label>Tip pitanja</label>
+                <div class="form-control">
+                    <label class="radio-inline">
+                            <input type="radio" value="SINGLE" name=type [(ngModel)]="question.type">Jedan tačan odgovor
+                    </label>
+                    <label class="radio-inline">
+                            <input type="radio" value="MULTIPLE" name=type [(ngModel)]="question.type">Više tačnih odgovora
+                    </label>
+                </div>
+            </div>
+            <br>
+            <div>
+                <button type="button" class="btn btn-primary" (click)="createQuestion()">Kreiraj pitanje</button>
+            </div>
+    </form>
+</div>
