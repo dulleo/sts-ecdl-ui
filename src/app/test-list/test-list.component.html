@@ -9,11 +9,25 @@
                 <tbody>
                     <tr *ngFor="let test of tests">
                         <td>{{ test.getName()}}</td>
-                        <td>
-                            <button type="button" class="btn btn-info" (click)="editTest">Promeni</button>
+                        <td class="col-md-1">
+                            <button type="button" class="btn btn-info" (click)="reviewTest(test)" data-toggle="tooltip" title="Pregledaj test">
+                                <span class="glyphicon glyphicon-info-sign"></span>
+                            </button>
                         </td>
-                        <td>
-                            <button type="button" class="btn btn-danger" (click)="deleteTest()">Obriši</button>
+                        <td class="col-md-1">
+                            <button type="button" class="btn btn-info" (click)="addQuestion(test)" data-toggle="tooltip" title="Novo pitanje">
+                                <span class="glyphicon glyphicon-question-sign"></span>
+                            </button>
+                        </td>
+                        <td class="col-md-1">
+                            <button type="button" class="btn btn-info" (click)="editTest(test)" data-toggle="tooltip" title="Izmeni test">
+                                <span class="glyphicon glyphicon-edit"></span>
+                            </button>
+                        </td>
+                        <td class="col-md-2">
+                            <button type="button" class="btn btn-danger" (click)="deleteTest(test)" data-toggle="tooltip" title="Obriši test">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
                         </td>
                     </tr>
                 </tbody>
