@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Test } from "../model/test.model";
 import { DataService } from "../service/data.service";
+import { Router } from "@angular/router";
 
 @Component({
     selector: 'app-create-test',
@@ -10,11 +11,10 @@ export class CreateTestComponent implements OnInit {
 
     test: Test = new Test();
 
-    constructor(private dataService: DataService) {
+    constructor(private dataService: DataService, private router: Router) {
     }
 
     ngOnInit() {
-
     }
 
     createTest() {
@@ -23,11 +23,8 @@ export class CreateTestComponent implements OnInit {
         this.dataService.createTest(this.test).subscribe(resp => {
             if(resp.ok) {
                 console.log("Create-test return ok....");
-                //this.tests = new Test().deserializeList(resp.body);
-                //this.name = this.tests[0].getName();
-                //rutiraj
+                this.router.navigate(['tests']);
             }
         });
     }
-
 }
