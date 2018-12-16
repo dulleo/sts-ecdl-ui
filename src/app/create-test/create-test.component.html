@@ -1,8 +1,9 @@
 
 <div class="container">
     <h3>Kreiraj test</h3>
+    <hr>
     <form #testForm="ngForm">
-        <div class="form-group">
+        <div class="form-group required control-label">
             <label for="testName">Naziv:</label>
             <input #testName type="text" 
                                 class="form-control" 
@@ -10,7 +11,6 @@
                                 name="name" 
                                 [(ngModel)]="testDTO.Name" 
                                 placeholder=" Unesite naziv testa...."
-                                #name="ngModel"
                                 required>
         </div>
         <div [hidden]="isValid" class="alert alert-danger">
@@ -65,7 +65,7 @@
         
         <hr>
         <div>
-            <button type="button" class="btn btn-primary" (click)="createTest()"><span class="glyphicon glyphicon-saved"></span> Kreiraj Test</button>
+            <button type="button" class="btn btn-primary" (click)="createTest()"><span class="glyphicon glyphicon-save"></span> Kreiraj Test</button>
         </div>
     </form>
     <hr>
