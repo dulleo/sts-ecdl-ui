@@ -1,14 +1,80 @@
 
 <div class="container">
     <h3>Kreiraj test</h3>
-    <form>
-        <div class="form-froup">
-            <label for="testName">Naziv testa</label>
-            <input type="text" class="form-control" id="testName" name="name" [(ngModel)]="test.name" placeholder="Unesite naziv testa....">
+    <form #testForm="ngForm">
+        <div class="form-group">
+            <label for="testName">Naziv:</label>
+            <input #testName type="text" 
+                                class="form-control" 
+                                id="testName" 
+                                name="name" 
+                                [(ngModel)]="testDTO.Name" 
+                                placeholder=" Unesite naziv testa...."
+                                #name="ngModel"
+                                required>
+                <div [hidden]="isValid" class="alert alert-danger">
+                    Naziv testa morate popuniti
+                </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label for="duration">Trajanje testa [min]</label>
+                        <select id="duration" [(ngModel)]="testDTO.Duration" name="duration" #duration="ngModel">
+                            <option *ngFor="let duration of durations" [ngValue]="duration">{{duration}}</option>
+                        </select>    
+                </div>
             </div>
-            <br>
-            <div>
-                <button type="button" class="btn btn-primary" (click)="createTest()">Kreiraj</button>
+
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label for="duration">Granica prolaznosti [%]</label>
+                        <select id="passingLimit" [(ngModel)]="testDTO.PassingLimit" name="passingLimit">
+                            <option *ngFor="let limit of passingLimits" [ngValue]="limit">{{limit}}</option>
+                        </select>    
+                </div>
             </div>
+
+            <div class="col-md-2">
+                <label>Ukupno pitanja</label>
+                <div class="well well-sm">{{testDTO.TotalQuestions}}</div>                  
+            </div>
+
+            <div class="col-md-2">
+                <label>Ukupno pitanja za test</label>
+                <div class="well well-sm">{{testDTO.TotalExamQuestions}}</div>                  
+            </div>
+
+            <div class="col-md-2">
+                <label *ngIf="testDTO.Status==testStatus.ACTIVE">Aktivan</label>
+                <label *ngIf="testDTO.Status==testStatus.INACTIVE">Neaktivan</label>
+                <div class="checkbox checbox-switch switch-success" id="statusCheckbox">
+                    <label>
+                        <input type="checkbox" 
+                                name="status" 
+                                [disabled]="minQuestionsToActivateTest >= testDTO.TotalQuestions"
+                                [checked]="testDTO.Status==testStatus.ACTIVE" 
+                                (click)="changeTestStatus()"/>
+                        <span></span>
+                    </label>
+                </div>
+            </div>
+            
+        </div>
+        
+        <hr>
+        <div>
+            <button type="button" class="btn btn-primary" (click)="createTest()"><span class="glyphicon glyphicon-saved"></span> Kreiraj Test</button>
+        </div>
     </form>
+    <hr>
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h4>Napomene</h4>
+        </div>
+        <div class="panel-body">
+            Da bi test mogao biti aktivan, mora da sadrži najmanje 5 pitanja!
+        </div>
+    </div>
 </div>
