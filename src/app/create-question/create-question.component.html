@@ -1,28 +1,63 @@
 <div class="container">
-    <h3>Test {{test.getName()}}</h3>
-    <form>
-        <div class="form-froup">
-            <label for="questionText">Pitanje: </label>
-                <input type="text" class="form-control" 
+    <h3>Test: {{test.Name}}</h3>
+    <hr>
+    <form name="form" (ngSubmit)="onSubmit()" #questionForm="ngForm">
+        
+            <div class="form-group required control-label">
+                <label for="questionText">Pitanje: </label>
+                <input #questionText="ngModel" type="text" class="form-control" 
                         id="questionText" 
-                        name="text" 
-                        [(ngModel)]="question.text" 
-                        placeholder="Unesite tekst pitanja....">
-            </div>
-            <div class="form-group">
-                <label>Tip pitanja</label>
-                <div class="form-control">
-                    <label class="radio-inline">
-                            <input type="radio" value="SINGLE" name=type [(ngModel)]="question.type">Jedan tačan odgovor
-                    </label>
-                    <label class="radio-inline">
-                            <input type="radio" value="MULTIPLE" name=type [(ngModel)]="question.type">Više tačnih odgovora
-                    </label>
+                        name="questionText" 
+                        [(ngModel)]="question.Text" 
+                        placeholder=" Unesite tekst pitanja...." 
+                        required>
+                <div *ngIf="!questionText.valid && !questionText.pristine" class="alert alert-danger">
+                    <span *ngIf="questionText.errors.required">
+                        Morate navesti tekst pitanja!
+                    </span>
                 </div>
             </div>
-            <br>
-            <div>
-                <button type="button" class="btn btn-primary" (click)="createQuestion()">Kreiraj pitanje</button>
+
+            <div class="form-group">
+                <label>Tip pitanja</label>
+                <div class="radio">
+                    <label><input type="radio" value="SINGLE" name=type [(ngModel)]="question.type">Jedan tačan odgovor</label>
+                </div>
+                <div class="radio">
+                    <label><input type="radio" value="MULTIPLE" name=type [(ngModel)]="question.type">Više tačnih odgovora</label>
+                </div>
             </div>
+            <hr>
+            <div class="form-group">
+                    <label for="noOfAnswers">Ukupno odgovora: </label>
+                    <div>
+                        <select name="noOfAnswers" [(ngModel)]="totalAnswers" id="noOfAnswers" (change)="answersInitialization()">
+                            <option *ngFor="let option of noOfAnswersOption" [ngValue]="option">{{option}}</option>
+                        </select>
+                    </div>
+            </div>
+            <div *ngIf="selected">
+                    <div class="form-group">
+                        <div *ngFor="let a of answers; let i=index;">
+                            <label style="width:96%">
+                                <input type="text" 
+                                        placeholder=" Unesite odgovor..." 
+                                        class="form-control" 
+                                        name="text-{{i}}" 
+                                        [(ngModel)]="a.Text" required>
+                            </label>
+                            <label style="width:20px;"></label>
+                                <label>
+                                    <input *ngIf="question.Type === questionType.SINGLE" id=radio-{{i}} name="optradio" type="radio" ngModel [value]="a" (change)="radioChanged(a)" required>
+                                    <input *ngIf="question.Type === questionType.MULTIPLE" type="checkbox" name="checkbox" [(ngModel)]="a.IsCorrect" (change)="checkboxChanged()">
+                                </label>
+                        </div>      
+                    </div>
+                </div>
+    
+        <div class="form-group">
+            <button *ngIf="question.Type === questionType.SINGLE" type="submit" class="btn btn-primary" [disabled]="!questionForm.valid || !selected">Kreiraj pitanje i odgovore</button>
+            <button *ngIf="question.Type === questionType.MULTIPLE" type="submit" class="btn btn-primary" [disabled]="!questionForm.valid || !selected || !checkboxAreValid">Kreiraj pitanje i odgovore</button>
+        </div>
     </form>
 </div>
