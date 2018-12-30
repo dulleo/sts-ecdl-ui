@@ -1,0 +1,64 @@
+<div class="container">
+    <h2 class="text-center">{{submitText}}</h2>
+    <h3>Test: {{selectedTest.Name}}</h3>
+    <hr>
+    <form name="form" (ngSubmit)="onSubmit()" #questionForm="ngForm">
+        
+            <div class="form-group required control-label">
+                <label for="questionText">Pitanje: </label>
+                <input #questionText="ngModel" type="text" class="form-control" 
+                        id="questionText" 
+                        name="questionText" 
+                        [(ngModel)]="selectedQuestion.Text" 
+                        placeholder=" Unesite tekst pitanja...." 
+                        required>
+                <div *ngIf="!questionText.valid && !questionText.pristine" class="alert alert-danger">
+                    <span *ngIf="questionText.errors.required">
+                        Morate navesti tekst pitanja!
+                    </span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Tip pitanja</label>
+                <div class="radio">
+                    <label><input type="radio" value="SINGLE" name=type [(ngModel)]="selectedQuestion.Type">Jedan tačan odgovor</label>
+                </div>
+                <div class="radio">
+                    <label><input type="radio" value="MULTIPLE" name=type [(ngModel)]="selectedQuestion.Type" (click)="multipleChiceQuestionRadioIsSelected()">Više tačnih odgovora</label>
+                </div>
+            </div>
+            <hr>
+            <div class="form-group">
+                    <label for="noOfAnswers">Ukupno odgovora: </label>
+                    <div>
+                        <select name="noOfAnswers" [(ngModel)]="totalAnswers" id="noOfAnswers" (change)="noOfAnswersChanged()">
+                            <option *ngFor="let option of noOfAnswersOption" [ngValue]="option">{{option}}</option>
+                        </select>
+                    </div>
+            </div>
+            <div *ngIf="noOfAnswersOptionIsSelected || !modeCreate">
+                    <div class="form-group">
+                        <div *ngFor="let a of selectedQuestion.Answers; let i=index;">
+                            <label style="width:96%">
+                                <input type="text" 
+                                        placeholder=" Unesite odgovor..." 
+                                        class="form-control" 
+                                        name="text-{{i}}" 
+                                        [(ngModel)]="a.Text" required>
+                            </label>
+                            <label style="width:20px;"></label>
+                                <label>
+                                    <input *ngIf="selectedQuestion.Type === questionType.SINGLE" id=radio-{{i}} name="optradio" type="radio" ngModel [value]="a" (click)=answerRadioSelected(a) required>
+                                    <input *ngIf="selectedQuestion.Type === questionType.MULTIPLE" type="checkbox" name="checkbox-{{i}}" [(ngModel)]="a.IsCorrect" (change)="validateCheckboxCount()">
+                                </label>
+                        </div>      
+                    </div>
+                </div>
+        <hr>
+        <div class="form-group">
+            <button *ngIf="selectedQuestion.Type === questionType.SINGLE" type="submit" class="btn btn-primary" [disabled]="!questionForm.valid || !noOfAnswersOptionIsSelected">{{submitText}}</button>
+            <button *ngIf="selectedQuestion.Type === questionType.MULTIPLE" type="submit" class="btn btn-primary" [disabled]="!questionForm.valid || !noOfAnswersOptionIsSelected || !checkboxAreValid">{{submitText}}</button>
+        </div>
+    </form>
+</div>
