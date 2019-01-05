@@ -1,0 +1,67 @@
+<div class="container-fluid">
+    <div>
+        <h3>Test: {{selectedTest.Name}}</h3>
+    </div>
+    <table *ngIf="questionExists" class="table table-hover">
+        <thead>
+            <tr>
+                <th>Pitanja</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let question of questions">
+                <td class="td-test-name">
+                    {{ question.Text }}
+                </td>
+                <td class="align-bottom">
+                    <button type="button" (click)="reviewQuestion(question)" class="btn btn-info btn-md" data-toggle="tooltip" title="Pregledaj pitanje">
+                        <span class="glyphicon glyphicon-info-sign"></span>
+                    </button>
+                    <button type="button" (click)="openModal(question)" class="btn btn-danger btn-md" title="Obriši pitanje">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </button>
+                    <button  type="button" (click)="editQuestion(question)" class="btn btn-success btn-md" data-toggle="tooltip" title="Izmeni pitanje i odgovore">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <hr>
+    <div>
+        <button type="button" class="btn btn-primary" (click)="createQuestion()"><span class="glyphicon glyphicon-save"></span> Novo Pitanje</button>
+    </div>
+
+    <div class="backdrop" [ngStyle]="{'display':display}"></div>
+    <div class="modal" tabindex="-1" role="dialog"  [ngStyle]="{'display':display}">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <!--<button type="button" class="close" aria-label="Close" (click)="onCloseHandled()"><span aria-hidden="true">&times;</span></button>-->
+                        <h4 class="modal-title">Brisanje Pitanja</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Ova akcija će obtisati pitanje, i sve odgovore!</p>
+                    <p>Da li ste sigurni?</p>
+                </div>
+                <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" (click)="onDeleteHandled()">Obriši</button>
+                    <button type="button" class="btn btn-primary" (click)="onCloseHandled()">Otkaži</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal !-->
+
+</div>
+
+<div *ngIf="!questionExists" class="container">
+    <br>
+    <div class="panel panel-primary">
+        <div class="panel-heading">Info</div>
+        <div class="panel-body">Za test nema kreiranih pitanja!</div>
+    </div>
+</div>
+
+
+
+
