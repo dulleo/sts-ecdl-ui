@@ -1,0 +1,48 @@
+<div class="container">
+
+  <div *ngIf="completed">
+    <div *ngIf="pass" class="panel panel-success">
+        <div class="panel-heading">Panel with panel-success class</div>
+        <div class="panel-body">
+          <p>Tačno: {{examTest.TotalCorrect}}</p>
+          <p>Netačno: {{examTest.TotalIncorrect}}</p>
+          <p>Neodgovoreno: {{examTest.TotalUnanswered}}</p>
+          <p>Granica (%): {{examTest.PassingLimit}}</p>
+          <p>Rezultat (%): {{examTest.Score}}</p>
+          <p>Status: {{examTest.Status}}</p>
+        </div>
+    </div>
+
+  </div>
+    <h3>Test: {{examTest.Name}}</h3>
+    
+    <div class="panel-group">
+    <div *ngFor="let q of examTest.ExamQuestions" class="panel panel-primary">
+        
+          
+            <div class="panel-heading">
+                <h3 class="panel-title">{{q.Text}}</h3>
+            </div>
+            <div class="panel-body">
+              <div *ngFor="let a of q.ExamAnswers" class="panel-body">
+                <label>
+                    <input  class="panel-body" *ngIf="q.Type === questionType.SINGLE" 
+                    name="{{q.Text}}" 
+                    type="radio" 
+                    (change)="onSelectedChange(q,a)">
+                    <input *ngIf="q.Type === questionType.MULTIPLE" 
+                    type="checkbox" 
+                    [(ngModel)]="a.IsChecked">
+                    {{a.Text}}
+                </label>
+              </div>
+            </div>
+        
+        </div> 
+  
+  </div>
+
+  <div [hidden]="completed">
+    <button type="button" class="btn btn-primary" (click)="submitTest()">Završi test</button>
+  </div>
+</div>
