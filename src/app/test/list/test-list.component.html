@@ -1,0 +1,58 @@
+<div class="container-fluid">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Naziv testa</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let test of tests">
+                <td class="td-test-name">
+                    {{ test.Name }}
+                </td>
+                <td class="align-bottom">
+                    <button type="button" (click)="reviewTest(test)" class="btn btn-info btn-md" data-toggle="tooltip" title="Pregledaj test">
+                        <span class="glyphicon glyphicon-info-sign"></span>
+                    </button>
+                    <button type="button" (click)="getQuestions(test)" class="btn btn-primary btn-md" data-toggle="tooltip" title="Sva pitanja">
+                        <span class="glyphicon glyphicon-question-sign"></span>
+                    </button>
+                    <button type="button" (click)="openModal(test)" class="btn btn-danger btn-md" title="Obriši test">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </button>
+                    <button  type="button" (click)="editTest(test)" class="btn btn-success btn-md" data-toggle="tooltip" title="Izmeni test">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <hr>
+    <div>
+        <button type="button" class="btn btn-primary" (click)="createTest()"><span class="glyphicon glyphicon-save"></span> Novi Test</button>
+    </div>
+
+    <div class="backdrop" [ngStyle]="{'display':display}"></div>
+    <div class="modal" tabindex="-1" role="dialog"  [ngStyle]="{'display':display}">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <!--<button type="button" class="close" aria-label="Close" (click)="onCloseHandled()"><span aria-hidden="true">&times;</span></button>-->
+                        <h4 class="modal-title">Brisanje Testa</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Ova akcija će obtisati test, sva pitanja i odgovore!</p>
+                    <p>Da li ste sigurni?</p>
+                </div>
+                <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" (click)="onDeleteHandled()">Obriši</button>
+                    <button type="button" class="btn btn-primary" (click)="onCloseHandled()">Otkaži</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal !-->
+
+</div>
+
+
+
