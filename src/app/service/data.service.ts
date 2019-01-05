@@ -1,9 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from "src/environments/environment";
-import { Test } from "../model/test.model";
-import { Question } from "../model/question.model";
-import { Answer } from "../model/answer.model";
+import { QuestionDTO } from "../modelDto/question.dto";
 //import { ExamAnswerDto } from "../modelDto/exam.answer.dto";
 //import { ExamTestDto } from "../modelDto/exam.test.dto";
 import { TestDTO } from "../modelDto/test.dto";
@@ -14,7 +12,7 @@ import { ExamDTO } from "../modelDto/exam.dto";
 @Injectable()
 export class DataService {
 
-    private tests: Array<Test>;
+   // private tests: Array<Test>;
 
     private baseUrl: string = environment.API_URL;
 
@@ -67,27 +65,57 @@ export class DataService {
         })
     }
 
-    //******************************** */
-    createQuestion(testId:number, question: Question) {
+    //*** QUESTION ***/
+
+    getQuestion(questionId: number) {
+        console.log("[Data Service] --> Get question id: " + questionId);
+        let url = this.baseUrl + '/questions/' + questionId;
+        return this.httpClient.get(url, {
+            headers: new HttpHeaders().set('Content-Type', 'application/json').set('Accept', '*'),
+            observe: 'response'
+        });
+    }
+
+
+    getQuestions(testId: number) {
+        console.log("[Data Service] --> Get questions for test id: " + testId);
+        let url = this.baseUrl + '/tests/' + testId + '/questions';
+        return this.httpClient.get(url, {
+            headers: new HttpHeaders().set('Content-Type', 'application/json').set('Accept', '*'),
+            observe: 'response'
+        });
+    }
+
+    createQuestion(testId:number, question: QuestionDTO) {
         console.log("[Service] --> Create question for test: " + testId);
         console.log("[Service] --> Create question: " + question.Text);
         const body =JSON.stringify(question);
         console.log("[Service] --> Create question body: " + body);
-        return this.httpClient.post(this.baseUrl + '/tests' + testId + '/questions', body,{
-            headers: new HttpHeaders().set('Content-Type', 'application/json')
-                                        .set('Accept', '*'),
+        let url = this.baseUrl + '/tests/' + testId + '/questions';
+        console.log("[Service] --> url: " + url);
+        return this.httpClient.post(url, body,{
+            headers: new HttpHeaders().set('Content-Type', 'application/json').set('Accept', '*'),
             observe: 'response'
         })
     }
 
-    /* ANSWER SECTION */
-    createAnswers(questionId: number, answers: Array<Answer>) {
-        console.log("[Service] --> Create answers for question: " + questionId);
-        const body =JSON.stringify(answers);
-        console.log("[Service] --> Create aswers body: " + body);
-        return this.httpClient.post(this.baseUrl + '/questions/' + questionId +  '/answers', body,{
-            headers: new HttpHeaders().set('Content-Type', 'application/json')
-                                        .set('Accept', '*'),
+    editQuestion(question: QuestionDTO) {
+        console.log("[Service] --> Edit question: " + question.Id);
+        const body = JSON.stringify(question);
+        console.log("[Service] --> Edit question body: " + body);
+        let url = this.baseUrl + '/questions/' + question.Id;
+        return this.httpClient.put(url, body, {
+            headers: new HttpHeaders().set('Content-Type', 'application/json').set('Accept', '*'),
+            observe: 'response'
+        })
+
+    }
+
+    deleteQuestion(questionId: number) {
+        console.log("[Service] --> Delete question id: " + questionId);
+        let url = this.baseUrl + '/questions/' + questionId;
+        return this.httpClient.delete(url, {
+            headers: new HttpHeaders().set('Content-Type', 'application/json').set('Accept', '*'),
             observe: 'response'
         })
     }
