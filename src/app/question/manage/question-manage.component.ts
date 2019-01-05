@@ -25,7 +25,7 @@ export class QuestionManageComponent implements OnInit {
     noOfAnswersOption = [2,3,4,5,6,7,8,9,10];
     checkboxAreValid: Boolean = false;
     submitText: string;
-    selectedValue: AnswerDTO = new AnswerDTO();
+    selectedAnswer: AnswerDTO;
 
     constructor(private router: Router, private messageService: MessageService, private dataService: DataService) {}
 
@@ -39,15 +39,13 @@ export class QuestionManageComponent implements OnInit {
             this.submitText = "Izmeni pitanje i odgovore";
             this.getQuestionFromDatabase();
             this.noOfAnswersOptionIsSelected = true;
+           // this.answerRadioChangeHandler(this.selectedAnswer);
             this.modeCreate = false;
            
-            
         } else {
             this.submitText = "Kreiraj pitanje i odgovore";
             this.modeCreate = true;
             console.log("Mode create: " + this.modeCreate);
-           
-            
         }
     }
 
@@ -65,19 +63,35 @@ export class QuestionManageComponent implements OnInit {
                 if(this.selectedQuestion.Type === this.questionType.MULTIPLE) {
                     this.validateCheckboxCount();
                 }
-                
+
+                if(this.selectedQuestion.Type == this.questionType.SINGLE) {
+                    this.selectedAnswer = this.selectedQuestion.Answers.find(a=> a.IsCorrect== true);
+                    console.log("Selected anserw;" + this.selectedAnswer.Id);
+                    console.log("Selected anserw;" + this.selectedAnswer.Text);
+                }
             }
         });
     }
 
     onSubmit() {
         //this.selectedQuestion.Answers = this.answers;
-        console.log("Create question for test id: " + this.selectedTest.Id);
+        
+        if(this.modeCreate) {
+            console.log("Create question for test id: " + this.selectedTest.Id);
             this.dataService.createQuestion(this.selectedTest.Id, this.selectedQuestion).subscribe(resp => {
                 if(resp.ok) {
                     this.router.navigate(['questions']);
                 }
             });
+        } else {
+            console.log("Edit question id: " + this.selectedQuestion.Id);
+            this.dataService.editQuestion(this.selectedQuestion).subscribe(resp => {
+                if(resp.ok) {
+                    this.router.navigate(['questions']);
+                }
+            });
+        }
+            
     }
 
     /**
@@ -132,7 +146,8 @@ export class QuestionManageComponent implements OnInit {
      * and then set to true for selected answer
      * @param a 
      */
-    answerRadioSelected(a: AnswerDTO) {
+    answerRadioChangeHandler(a: AnswerDTO) {
+        console.log("answerRadioChangeHandler is called for: " + a.Id);
         this.selectedQuestion.Answers.forEach(answer => {
             answer.IsCorrect = false;
         });
