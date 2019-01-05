@@ -1,18 +1,20 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { CreateTestComponent } from './create-test/create-test.component';
-import { TestListComponent } from './test-list/test-list.component';
-import { EditTestComponent } from './edit-test/edit-test.component';
-import { CreateQuestionComponent } from './create-question/create-question.component';
-import { CreateAnswersComponent } from './answers/create-answers/create-answers.component';
+import { TestListComponent } from './test/list/test-list.component';
+import { ExamComponent } from './exam/exam.component';
+import { ReviewTestComponent } from './test/review/review-test.component';
+import { QuestionListComponent } from './question/list/question-list.component';
+import { QuestionManageComponent } from './question/manage/question-manage.component';
+import { TestManageComponent } from './test/manage/test-manage.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'tests', pathMatch: 'full' },
   { path: 'tests', component: TestListComponent},
-  { path: 'tests/create', component: CreateTestComponent},
-  { path: 'tests/edit', component: EditTestComponent},
-  { path: 'questions/create', component: CreateQuestionComponent },
-  { path: 'answers/create', component: CreateAnswersComponent }
+  { path: 'tests/manage', component: TestManageComponent},
+  { path: 'tests/review', component: ReviewTestComponent},
+  { path: 'questions', component: QuestionListComponent },
+  { path: 'questions/manage', component: QuestionManageComponent },
+  { path: 'exams', component: ExamComponent }
 ];
 
 @NgModule({
