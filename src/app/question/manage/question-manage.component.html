@@ -49,7 +49,7 @@
                             </label>
                             <label style="width:20px;"></label>
                                 <label>
-                                    <input *ngIf="selectedQuestion.Type === questionType.SINGLE" id=radio-{{i}} name="optradio" type="radio" ngModel [value]="a" (click)=answerRadioSelected(a) required>
+                                    <input *ngIf="selectedQuestion.Type === questionType.SINGLE" name="optradio" type="radio" [attr.checked]="a.IsCorrect" [(ngModel)]="selectedAnswer" [value]="a" (click)=answerRadioChangeHandler(a) required>
                                     <input *ngIf="selectedQuestion.Type === questionType.MULTIPLE" type="checkbox" name="checkbox-{{i}}" [(ngModel)]="a.IsCorrect" (change)="validateCheckboxCount()">
                                 </label>
                         </div>      
