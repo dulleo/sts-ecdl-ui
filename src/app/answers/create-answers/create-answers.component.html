@@ -1,9 +1,0 @@
-<h3>Create answers component</h3>
-<label for="sel1">Broj ponuđenih odgovora (izaberite jednu opciju):</label>
-            <div>
-                <select name="noOfAnswers" [(ngModel)]="selectedNumber">
-                    <option *ngFor="let o of noOfAnswersOption" value={{o.option}}>{{o.option}}</option>
-                </select>
-            </div>
-
-            <p>Izabrali ste {{selectedNumber}}</p>
