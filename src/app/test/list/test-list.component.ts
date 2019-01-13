@@ -21,6 +21,7 @@ export class TestListComponent implements OnInit {
     testDTO: TestDTO;
     display='none';
     selectedTestDTO: TestDTO;
+    testExists: Boolean = false;
 
     constructor(private router: Router, 
         private dataService: DataService, private messageService : MessageService) {
@@ -35,6 +36,9 @@ export class TestListComponent implements OnInit {
             if(resp.ok) {
                 console.log("Get-tests response received....");
                 this.tests = new TestDTO().deserializeList(resp.body);
+                if(this.tests.length > 0) {
+                    this.testExists = true;
+                }
             }
         });
     }
