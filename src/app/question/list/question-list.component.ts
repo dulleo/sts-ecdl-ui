@@ -41,7 +41,7 @@ export class QuestionListComponent implements OnInit {
     createQuestion() {
         console.log("Create question"); 
         this.messageService.selectTest(this.selectedTest);
-        //this.messageService.selectQuestion(new QuestionDTO());
+        this.messageService.selectQuestion(new QuestionDTO());
         this.router.navigate(['questions/manage']);
     }
 
